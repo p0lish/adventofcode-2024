@@ -24,9 +24,9 @@ def draw_torch_aura(init_line, window, maze, x, y):
                 char = '-'
             elif yy <=0:
                 char = '|'
-            elif xx >= len(maze):
+            elif xx >= len(maze)-1:
                 char = '-'
-            elif yy >= len(maze[0]):
+            elif yy >= len(maze[0])-1:
                 char = '|'
             else:
                 char = maze[xx][yy]
@@ -103,19 +103,18 @@ def solve_maze(window):
     window.resize(len(maze[0]) + 1, len(maze) + 1)
     x += 1
     all_move = 1
-    while True:
+    while guard_x != 0 or guard_y != 0:
         window.addstr(0, 0, 'Guard location: {},{}, Moves: {} |'.format(guard_x, guard_y, all_move))
-        # draw_maze(window, maze, x, y)
         draw_torch_aura(maze_init_x, window, maze, guard_x, guard_y) 
         guard_x, guard_y, distinct = move_guard(maze, guard_x, guard_y)
         if distinct:
             all_move += 1
 
         previous_guard = (guard_x, guard_y)
-        time.sleep(0.1)
+        # time.sleep(0.1)
         window.refresh()
         x = maze_init_x
-            
+    window.refresh()
 
 if __name__ == "__main__":
     curses.wrapper(solve_maze)
